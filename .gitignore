@@ -1,0 +1,11 @@
+# Arquivos grandes e desnecessários para versionamento
+data/rockyou.txt
+*.joblib
+__pycache__/
+*.pyc
+.venv/
+env/
+venv/
+.vscode/
+.idea/
+output/

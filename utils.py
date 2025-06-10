@@ -23,16 +23,34 @@ def calcular_entropia(senha):
 #S3nh@S3gura! → entropia alta
 
 
-def extrair_features(senha, rockyou_set):
+def extrair_features(senha, rockyou):
+    if not isinstance(senha, str):
+        senha = str(senha) if senha is not None else ""
+
+    comprimento = len(senha)
+    qtd_numeros = sum(c.isdigit() for c in senha)
+    qtd_maiusculas = sum(c.isupper() for c in senha)
+    qtd_simbolos = sum(not c.isalnum() for c in senha)
+    apareceu_no_rockyou = int(senha in rockyou)
+
+    # Entropia
+    if len(senha) > 0:
+        alfabeto = set(senha)
+        probas = [senha.count(c)/len(senha) for c in alfabeto]
+        entropia = -sum(p * math.log2(p) for p in probas)
+    else:
+        entropia = 0
+
     return {
         "senha": senha,
-        "comprimento": len(senha),
-        "qtd_numeros": sum(c.isdigit() for c in senha),
-        "qtd_maiusculas": sum(c.isupper() for c in senha),
-        "qtd_simbolos": sum(not c.isalnum() for c in senha),
-        "entropia": calcular_entropia(senha),
-        "apareceu_no_rockyou": int(senha in rockyou_set)
+        "comprimento": comprimento,
+        "qtd_numeros": qtd_numeros,
+        "qtd_maiusculas": qtd_maiusculas,
+        "qtd_simbolos": qtd_simbolos,
+        "entropia": entropia,
+        "apareceu_no_rockyou": apareceu_no_rockyou
     }
+
 
 #Extrai um conjunto de características (features) da senha, que serão usadas para treinar ou prever no modelo ML.
 #As features são:

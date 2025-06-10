@@ -2,6 +2,8 @@
 
 Este projeto tem como objetivo desenvolver uma solução automatizada capaz de **classificar a força de senhas**, utilizando técnicas de **aprendizado de máquina**, análise heurística e verificação contra bases de dados de senhas vazadas (como a wordlist `rockyou.txt`).
 
+Link: https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt
+
 O sistema é capaz de receber como entrada um conjunto de senhas (em texto claro ou hashes) e, com base em suas características e padrões, **identificar se cada senha é fraca, média ou forte**. A ferramenta pode ser usada para análises de segurança, auditorias de sistemas, validação de políticas de senhas e testes de robustez.
 
 ---

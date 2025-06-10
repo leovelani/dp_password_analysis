@@ -1,6 +1,7 @@
 import pandas as pd
 import joblib
 from utils import extrair_features
+import os
 
 # Carregar senhas
 with open("data/input_passwords.txt", encoding="utf-8") as f:
@@ -29,6 +30,8 @@ df["forca_predita"] = predicoes
 #Carrega o modelo treinado salvo no ml_model.py;
 #Aplica a predição no novo DataFrame com as senhas do usuário;
 #Adiciona uma nova coluna forca_predita com o resultado do modelo.
+
+os.makedirs("output", exist_ok=True)
 
 # Salvar relatório
 df.to_csv("output/relatorio.csv", index=False)

@@ -15,10 +15,12 @@ def gerar_dataset(senhas, rockyou):
     def rotulo(row):
         if row["apareceu_no_rockyou"]:
             return "fraca"
-        elif row["comprimento"] >= 12 and row["qtd_simbolos"] > 0:
+        elif row["entropia"] > 3.5 and row["qtd_simbolos"] >= 2 and row["comprimento"] >= 10:
             return "forte"
-        else:
+        elif row["entropia"] > 2.8 and (row["qtd_simbolos"] > 0 or row["qtd_maiusculas"] > 0):
             return "média"
+        else:
+            return "fraca"
     
     df["forca"] = df.apply(rotulo, axis=1)
     return df
@@ -67,6 +69,9 @@ if __name__ == "__main__":
 
     with open("data/rockyou.txt", encoding="latin-1") as f:
         rockyou = set(line.strip() for line in f)
+
+    print("\nDistribuição de classes no dataset de treino:")
+    print(df["forca"].value_counts())
 
     df = gerar_dataset(senhas, rockyou)
     treinar_modelo(df)

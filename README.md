@@ -1,3 +1,7 @@
+# Como rodar
+pip install -r requirements.txt
+
+
 #  Analisador de Força de Senhas
 
 Este projeto tem como objetivo desenvolver uma solução automatizada capaz de **classificar a força de senhas**, utilizando técnicas de **aprendizado de máquina**, análise heurística e verificação contra bases de dados de senhas vazadas (como a wordlist `rockyou.txt`).

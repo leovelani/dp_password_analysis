@@ -1,3 +1,18 @@
+# Como rodar:
+```
+pip install -r requirements.txt
+```
+- Baixar rockyou.txt: https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt
+- Inserir o txt na pasta "data"
+
+```
+python ml_model.py
+```
+
+```
+python analyzer.py
+```
+
 #  Analisador de Força de Senhas
 
 Este projeto tem como objetivo desenvolver uma solução automatizada capaz de **classificar a força de senhas**, utilizando técnicas de **aprendizado de máquina**, análise heurística e verificação contra bases de dados de senhas vazadas (como a wordlist `rockyou.txt`).

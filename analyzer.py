@@ -3,7 +3,7 @@ import joblib
 from utils import extrair_features
 
 # Carregar senhas
-with open("data/input_passwords.txt", encoding="utf-8") as f:
+with open("data/novas_senhas.txt", encoding="utf-8") as f:
     senhas = [line.strip() for line in f]
 
 with open("data/rockyou.txt", encoding="latin-1") as f:

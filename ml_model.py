@@ -7,23 +7,64 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
 import joblib
 from utils import extrair_features
+import re
 
 def gerar_dataset(senhas, rockyou):
     dados = [extrair_features(s, rockyou) for s in senhas]
     df = pd.DataFrame(dados)
     
+    def padrao_obvio(senha):
+        # Padrões comuns e repetições
+        padroes = [
+            r"123456", r"abcdef", r"qwerty", r"senha", r"password",
+            r"(.)\1{2,}",  # repetições de 3 ou mais caracteres
+        ]
+        for p in padroes:
+            if re.search(p, senha, re.IGNORECASE):
+                return True
+        return False
+
     def rotulo(row):
-        if row["apareceu_no_rockyou"]:
+        senha = row["senha"]
+        comprimento = row["comprimento"]
+        qtd_maiusculas = row["qtd_maiusculas"]
+        qtd_simbolos = row["qtd_simbolos"]
+        qtd_numeros = row["qtd_numeros"]
+        entropia = row["entropia"]
+        apareceu_no_rockyou = row["apareceu_no_rockyou"]
+        tipos = sum([
+            any(c.islower() for c in senha),
+            any(c.isupper() for c in senha),
+            any(c.isdigit() for c in senha),
+            any(not c.isalnum() for c in senha)
+        ])
+
+        # Fraca
+        if (
+            apareceu_no_rockyou or
+            comprimento < 8 or
+            tipos < 2 or
+            padrao_obvio(senha) or
+            entropia < 28
+        ):
             return "fraca"
-        elif row["comprimento"] >= 12 and row["qtd_simbolos"] > 0:
+        # Forte
+        elif (
+            comprimento >= 12 and
+            tipos == 4 and
+            qtd_simbolos > 0 and
+            entropia > 40 and
+            not apareceu_no_rockyou and
+            not padrao_obvio(senha)
+        ):
             return "forte"
+        # Média
         else:
             return "média"
     
     df["forca"] = df.apply(rotulo, axis=1)
     return df
-
-#O que faz:
+#
 #Gera um dataframe com features das senhas;
 #Aplica rótulos heurísticos (forte, média, fraca) para treinar o modelo:
 #Se está no rockyou.txt → fraca
